@@ -1,51 +1,77 @@
 import React from "react";
-import { Modal, Button, Table } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import CartItemList from "./CartItemList.jsx";
 
-export default function Cart({ showCart, toggleCartModal, cart }) {
-  function renderCartItems() {
-    console.log(cart);
-    return cart.map(item => {
+const NO_ITEMS_IN_CART_TEXT =
+  "There are currently no products in the shopping cart";
+
+const MODAL_TITLE = "Your shopping cart";
+const CLOSE_BTN_TEXT = "Close";
+const CHECKOUT_BTN_TEXT = "To checkout";
+
+export default function Cart({
+  showCart,
+  toggleCartModal,
+  cart,
+  addToCart,
+  removeFromCart
+}) {
+  const itemsInCart = cart.length;
+
+  function renderCartItemList() {
+    if (itemsInCart > 0) {
       return (
-        <tr>
-          <td>{item.name}</td>
-          <td>{item.quantity}</td>
-          <td>{item.price.toFixed(2)}</td>
-        </tr>
+        <CartItemList
+          cart={cart}
+          addToCart={addToCart}
+          removeFromCart={removeFromCart}
+        />
       );
-    });
+    }
+    return NO_ITEMS_IN_CART_TEXT;
   }
 
-  const totalPrice = cart.reduce(
-    (acc, curr) => (acc + curr.price * 100) * curr.quantity,
-    0
-  ) / 100;
-
   return (
-    <Modal show={showCart} onHide={toggleCartModal}>
+    <Modal show={showCart} onHide={toggleCartModal} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Your shopping cart</Modal.Title>
+        <Modal.Title>{MODAL_TITLE}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Table>
-          <thead>
-            <tr>
-              <th>Product name</th>
-              <th>Quantity</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>{renderCartItems()}</tbody>
-        </Table>
-        Total price: {totalPrice.toFixed(2)}
-      </Modal.Body>
+      <Modal.Body>{renderCartItemList()}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={toggleCartModal}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={toggleCartModal}>
-          To checkout
-        </Button>
+        <CloseButton toggleCartModal={toggleCartModal} />
+        <CheckoutButton itemsInCart={itemsInCart} />
       </Modal.Footer>
     </Modal>
   );
 }
+
+Cart.defaultProps = {
+  showCart: false,
+  toggleCartModal: () => {},
+  cart: [],
+  addToCart: () => {},
+  removeFromCart: () => {}
+};
+
+function CloseButton({ toggleCartModal }) {
+  return (
+    <Button variant="secondary" onClick={toggleCartModal}>
+      {CLOSE_BTN_TEXT}
+    </Button>
+  );
+}
+
+CloseButton.defaultProps = {
+  toggleCartModal: () => {}
+};
+
+function CheckoutButton({ itemsInCart }) {
+  if (itemsInCart > 0) {
+    return <Button variant="primary">{CHECKOUT_BTN_TEXT}</Button>;
+  }
+  return null;
+}
+
+CheckoutButton.defaultProps = {
+  itemsInCart: 0
+};
