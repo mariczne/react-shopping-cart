@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar, Container, Badge, Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 
+
 export default function Header({ cart, toggleCartModal }) {
   const itemsInCart = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 

@@ -3,10 +3,6 @@ import { Table } from "react-bootstrap";
 
 import CartItem from "./CartItem.jsx";
 
-const STYLE_PRICE = {
-  textAlign: "right"
-};
-
 export default function CartItemList({ cart, addToCart, removeFromCart }) {
   function renderCartItems() {
     return cart.map(item => (
@@ -26,7 +22,7 @@ export default function CartItemList({ cart, addToCart, removeFromCart }) {
     cart.reduce((acc, curr) => acc + curr.price * 100 * curr.quantity, 0) / 100;
 
   return (
-    <Table>
+    <Table responsive striped hover size="sm">
       <thead>
         <tr>
           <th>Product name</th>
@@ -41,7 +37,9 @@ export default function CartItemList({ cart, addToCart, removeFromCart }) {
           <th />
           <th />
           <th />
-          <th style={STYLE_PRICE}>Total order price: {totalPrice.toFixed(2)}</th>
+          <th className="text-right">
+            Total order price: {totalPrice.toFixed(2)}
+          </th>
         </tr>
       </tfoot>
     </Table>

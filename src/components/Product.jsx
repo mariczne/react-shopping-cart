@@ -3,32 +3,12 @@ import { Card, Button, Badge } from "react-bootstrap";
 
 const CARD_STYLE = {
   minWidth: "12.5rem",
-  minHeight: "12.5rem",
-  marginBottom: "2rem",
-  flex: "0"
-};
-
-const CARD_BODY_STYLE = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between"
-};
-
-const CARD_FOOTER_STYLE = {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between"
-};
-
-const BADGE_STYLE = {
-  display: "flex",
-  alignItems: "center",
-  transition: "opacity 1s"
+  minHeight: "12.5rem"
 };
 
 const ADD_TO_CART_TEXT = "Add to cart";
 
-const IN_CART_TEXT = "In cart";
+const IN_CART_TEXT = "in cart";
 
 // const CURRENCY_CODE = "XXX";
 
@@ -40,12 +20,12 @@ export default function Product({
   addToCart
 }) {
   return (
-    <Card style={CARD_STYLE}>
-      <Card.Body style={CARD_BODY_STYLE}>
+    <Card style={CARD_STYLE} className="m-3 flex-grow-0 ">
+      <Card.Body className="d-flex flex-column justify-content-between">
         <Card.Title>{name}</Card.Title>
         <Card.Subtitle>{price.toFixed(2)} /per item</Card.Subtitle>
       </Card.Body>
-      <Card.Footer style={CARD_FOOTER_STYLE}>
+      <Card.Footer className="d-flex flex-row justify-content-between">
         <Button variant="primary" size="sm" onClick={() => addToCart(id)}>
           {ADD_TO_CART_TEXT}
         </Button>
@@ -58,8 +38,8 @@ export default function Product({
 function BadgeInCart({ inCartQuantity }) {
   if (inCartQuantity > 0) {
     return (
-      <Badge style={BADGE_STYLE} variant="success">
-        {IN_CART_TEXT} ({inCartQuantity})
+      <Badge variant="success" className="d-flex align-items-center">
+        {inCartQuantity} {IN_CART_TEXT}
       </Badge>
     );
   }

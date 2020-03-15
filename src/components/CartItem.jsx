@@ -1,15 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const STYLE_QUANTITY = {
-  display: "flex",
-  justifyContent: "space-evenly"
-};
-
-const STYLE_PRICE = {
-  textAlign: "right"
-};
-
 export default function CartItem({
   id,
   name,
@@ -21,13 +12,15 @@ export default function CartItem({
   return (
     <tr>
       <td>{name}</td>
-      <td style={STYLE_QUANTITY}>
+      <td className="d-flex justify-content-around">
         <DecrementButton id={id} removeFromCart={removeFromCart} />
         {quantity}
         <IncrementButton id={id} addToCart={addToCart} />
       </td>
-      <td style={STYLE_PRICE}>{price.toFixed(2)}</td>
-      <td style={STYLE_PRICE}>{((100 * price * quantity) / 100).toFixed(2)}</td>
+      <td className="text-right">{price.toFixed(2)}</td>
+      <td className="text-right">
+        {((100 * price * quantity) / 100).toFixed(2)}
+      </td>
     </tr>
   );
 }
@@ -56,7 +49,11 @@ IncrementButton.defaultProps = {
 
 function DecrementButton({ id, removeFromCart }) {
   return (
-    <Button variant="outline-danger" size="sm" onClick={() => removeFromCart(id)}>
+    <Button
+      variant="outline-danger"
+      size="sm"
+      onClick={() => removeFromCart(id)}
+    >
       -
     </Button>
   );
@@ -65,4 +62,4 @@ function DecrementButton({ id, removeFromCart }) {
 DecrementButton.defaultProps = {
   id: 0,
   removeFromCart: () => {}
-}
+};
