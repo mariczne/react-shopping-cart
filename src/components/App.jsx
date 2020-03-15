@@ -48,6 +48,21 @@ export default class App extends Component {
     });
   };
 
+  removeFromCart = id => {
+    this.setState(state => {
+      const isProductInCart = !!state.cart.find(product => product.id === id);
+      if (isProductInCart) {
+        const newCart = [...state.cart];
+        const productInCart = newCart.find(product => product.id === id);
+        if (productInCart.quantity < 2) {
+          return { cart: newCart.filter(product => product.id !== id) };
+        }
+        productInCart.quantity--;
+        return { cart: newCart };
+      }
+    });
+  };
+
   render() {
     const { dataState, products, cart, showCart } = this.state;
 
@@ -59,6 +74,7 @@ export default class App extends Component {
           toggleCartModal={this.toggleCartModal}
           cart={cart}
           addToCart={this.addToCart}
+          removeFromCart={this.removeFromCart}
         />
         <Container>
           <Row>
