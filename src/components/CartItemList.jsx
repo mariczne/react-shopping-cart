@@ -41,7 +41,7 @@ export default function CartItemList({ cart, addToCart, removeFromCart }) {
           <th />
           <th />
           <th />
-          <th style={STYLE_PRICE}>Total price: {totalPrice.toFixed(2)}</th>
+          <th style={STYLE_PRICE}>Total order price: {totalPrice.toFixed(2)}</th>
         </tr>
       </tfoot>
     </Table>

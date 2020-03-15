@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Badge, Fade } from "react-bootstrap";
+import { Card, Button, Badge } from "react-bootstrap";
 
 const CARD_STYLE = {
   minWidth: "12.5rem",
@@ -30,7 +30,7 @@ const ADD_TO_CART_TEXT = "Add to cart";
 
 const IN_CART_TEXT = "In cart";
 
-const CURRENCY_CODE = "XXX";
+// const CURRENCY_CODE = "XXX";
 
 export default function Product({
   id,
@@ -43,9 +43,7 @@ export default function Product({
     <Card style={CARD_STYLE}>
       <Card.Body style={CARD_BODY_STYLE}>
         <Card.Title>{name}</Card.Title>
-        <Card.Subtitle>
-          {price.toFixed(2)} {CURRENCY_CODE}/per item
-        </Card.Subtitle>
+        <Card.Subtitle>{price.toFixed(2)} /per item</Card.Subtitle>
       </Card.Body>
       <Card.Footer style={CARD_FOOTER_STYLE}>
         <Button variant="primary" size="sm" onClick={() => addToCart(id)}>
@@ -60,11 +58,9 @@ export default function Product({
 function BadgeInCart({ inCartQuantity }) {
   if (inCartQuantity > 0) {
     return (
-      <Fade in="true" timeout="1500">
-        <Badge style={BADGE_STYLE} variant="success">
-          {IN_CART_TEXT} ({inCartQuantity})
-        </Badge>
-      </Fade>
+      <Badge style={BADGE_STYLE} variant="success">
+        {IN_CART_TEXT} ({inCartQuantity})
+      </Badge>
     );
   }
   return null;

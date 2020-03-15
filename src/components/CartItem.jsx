@@ -43,7 +43,7 @@ CartItem.defaultProps = {
 
 function IncrementButton({ id, addToCart }) {
   return (
-    <Button variant="primary" size="sm" onClick={() => addToCart(id)}>
+    <Button variant="outline-success" size="sm" onClick={() => addToCart(id)}>
       +
     </Button>
   );
@@ -56,7 +56,7 @@ IncrementButton.defaultProps = {
 
 function DecrementButton({ id, removeFromCart }) {
   return (
-    <Button variant="primary" size="sm" onClick={() => removeFromCart(id)}>
+    <Button variant="outline-danger" size="sm" onClick={() => removeFromCart(id)}>
       -
     </Button>
   );
