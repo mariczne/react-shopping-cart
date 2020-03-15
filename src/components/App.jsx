@@ -36,12 +36,14 @@ export default class App extends Component {
       const isProductAlreadyInCart = !!state.cart.find(
         product => product.id === id
       );
+
       if (isProductAlreadyInCart) {
         const newCart = [...state.cart];
         const productInCart = newCart.find(product => product.id === id);
         productInCart.quantity++;
         return { cart: newCart };
       }
+
       const product = state.products.find(product => product.id === id);
       const productToAdd = { ...product };
       return { cart: [...state.cart, { ...productToAdd, quantity: 1 }] };
@@ -51,12 +53,15 @@ export default class App extends Component {
   removeFromCart = id => {
     this.setState(state => {
       const isProductInCart = !!state.cart.find(product => product.id === id);
+      
       if (isProductInCart) {
         const newCart = [...state.cart];
         const productInCart = newCart.find(product => product.id === id);
+
         if (productInCart.quantity < 2) {
           return { cart: newCart.filter(product => product.id !== id) };
         }
+        
         productInCart.quantity--;
         return { cart: newCart };
       }

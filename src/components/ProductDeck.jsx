@@ -83,7 +83,7 @@ export default class ProductDeck extends Component {
         <Row>
           <SearchBox value={searchValue} onSearchChange={this.onSearchChange} />
         </Row>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-center">
           {dataState === "loading" ? (
             <Spinner animation="border" />
           ) : (
@@ -91,7 +91,7 @@ export default class ProductDeck extends Component {
               hasMore={hasMoreProducts}
               loadMore={this.loadMoreProducts}
             >
-              <CardDeck style={{ justifyContent: "space-between" }}>
+              <CardDeck className="justify-content-center">
                 {this.renderFilteredProducts()}
               </CardDeck>
             </InfiniteScroll>
