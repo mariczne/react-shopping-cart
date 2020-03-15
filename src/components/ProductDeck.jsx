@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row, CardDeck, Spinner } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroller";
 import Product from "./Product.jsx";
 import SearchBox from "./SearchBox.jsx";
 
@@ -12,27 +13,12 @@ export default class ProductDeck extends Component {
     productsToShow: DEFAULT_PRODUCTS_VISIBLE
   };
 
-  componentWillMount() {
-    window.addEventListener("scroll", this.loadMoreProducts);
-    window.addEventListener("touchmove", this.loadMoreProducts);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.loadMoreProducts);
-    window.removeEventListener("touchmove", this.loadMoreProducts);
-  }
-
   loadMoreProducts = () => {
-    const endOfPageReached =
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.scrollingElement.scrollHeight;
-    if (endOfPageReached) {
-      this.setState(state => {
-        return {
-          productsToShow: state.productsToShow + DEFAULT_PRODUCTS_VISIBLE
-        };
-      });
-    }
+    this.setState(state => {
+      return {
+        productsToShow: state.productsToShow + DEFAULT_PRODUCTS_VISIBLE
+      };
+    });
   };
 
   onSearchChange = e => {
@@ -89,21 +75,26 @@ export default class ProductDeck extends Component {
   };
 
   render() {
+    const { searchValue, productsToShow } = this.state;
+    const { dataState, products } = this.props;
+    const hasMoreProducts = products.length > productsToShow;
     return (
       <>
         <Row>
-          <SearchBox
-            value={this.state.searchValue}
-            onSearchChange={this.onSearchChange}
-          />
+          <SearchBox value={searchValue} onSearchChange={this.onSearchChange} />
         </Row>
         <Row className="justify-content-md-center">
-          {this.props.dataState === "loading" ? (
+          {dataState === "loading" ? (
             <Spinner animation="border" />
           ) : (
-            <CardDeck style={{ justifyContent: "space-between" }}>
-              {this.renderFilteredProducts()}
-            </CardDeck>
+            <InfiniteScroll
+              hasMore={hasMoreProducts}
+              loadMore={this.loadMoreProducts}
+            >
+              <CardDeck style={{ justifyContent: "space-between" }}>
+                {this.renderFilteredProducts()}
+              </CardDeck>
+            </InfiniteScroll>
           )}
         </Row>
       </>
