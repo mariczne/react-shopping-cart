@@ -38,32 +38,38 @@ export default class App extends Component {
       );
 
       if (isProductAlreadyInCart) {
-        const newCart = [...state.cart];
-        const productInCart = newCart.find(product => product.id === id);
-        productInCart.quantity++;
-        return { cart: newCart };
+        return {
+          cart: state.cart.map(productInCart => {
+            if (productInCart.id === id) {
+              return { ...productInCart, quantity: productInCart.quantity + 1 };
+            }
+            return productInCart;
+          })
+        };
       }
 
       const product = state.products.find(product => product.id === id);
-      const productToAdd = { ...product };
-      return { cart: [...state.cart, { ...productToAdd, quantity: 1 }] };
+      return { cart: [...state.cart, { ...product, quantity: 1 }] };
     });
   };
 
   removeFromCart = id => {
     this.setState(state => {
-      const isProductInCart = !!state.cart.find(product => product.id === id);
-      
-      if (isProductInCart) {
-        const newCart = [...state.cart];
-        const productInCart = newCart.find(product => product.id === id);
+      const productInCart = state.cart.find(product => product.id === id);
 
+      if (productInCart) {
         if (productInCart.quantity < 2) {
-          return { cart: newCart.filter(product => product.id !== id) };
+          return { cart: state.cart.filter(product => product.id !== id) };
         }
-        
-        productInCart.quantity--;
-        return { cart: newCart };
+
+        return {
+          cart: state.cart.map(productInCart => {
+            if (productInCart.id === id) {
+              return { ...productInCart, quantity: productInCart.quantity - 1 };
+            }
+            return productInCart;
+          })
+        };
       }
     });
   };

@@ -12,9 +12,9 @@ export default function CartItem({
   return (
     <tr>
       <td className="align-middle">{name}</td>
-      <td className="align-middle text-nowrap">
+      <td className="align-middle text-right text-nowrap">
         <DecrementButton id={id} removeFromCart={removeFromCart} />
-        {quantity}
+        <span className="mx-2">{quantity}</span>
         <IncrementButton id={id} addToCart={addToCart} />
       </td>
       <td className="align-middle text-right">{price.toFixed(2)}</td>
@@ -34,10 +34,10 @@ CartItem.defaultProps = {
   removeFromCart: () => {}
 };
 
-const BUTTON_STYLE = { width: "1.25rem", height: "1.25rem" };
+const BUTTON_STYLE = { width: "1.5rem", height: "1.5rem" };
 
 const BUTTON_CLASSES = `d-inline-flex justify-content-center align-items-center
-rounded-circle p-0 mx-2`;
+rounded-circle p-0`;
 function IncrementButton({ id, addToCart }) {
   return (
     <Button

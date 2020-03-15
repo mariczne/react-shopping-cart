@@ -4,8 +4,13 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const APP_NAME = "React Shopping Cart";
 
+const BADGE_STYLE = { width: "1.5rem", height: "1.5rem" };
+
+const BADGE_CLASSES = `d-inline-flex justify-content-center align-items-center
+rounded-circle p-0 ml-2`;
+
 export default function Header({ cart, toggleCartModal }) {
-  const itemsInCart = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+  const itemsInCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
     <Navbar bg="light">
@@ -20,9 +25,20 @@ export default function Header({ cart, toggleCartModal }) {
           />{" "}
           {APP_NAME}
         </Navbar.Brand>
-        <Button onClick={toggleCartModal}>
-          <FaShoppingCart size="1rem" />
-          <Badge size="big">{itemsInCart || null}</Badge>
+        <Button
+          variant={itemsInCartCount ? "primary" : "outline-secondary"}
+          onClick={toggleCartModal}
+        >
+          <FaShoppingCart size="1.5rem" />
+          {itemsInCartCount ? (
+            <Badge
+              style={BADGE_STYLE}
+              className={BADGE_CLASSES}
+              variant="light"
+            >
+              {itemsInCartCount}
+            </Badge>
+          ) : null}
         </Button>
       </Container>
     </Navbar>

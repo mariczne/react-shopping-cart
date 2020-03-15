@@ -25,10 +25,10 @@ export default function CartItemList({ cart, addToCart, removeFromCart }) {
     <Table responsive striped hover size="sm">
       <thead>
         <tr>
-          <th>Product name</th>
-          <th>Quantity</th>
-          <th>Price per item</th>
-          <th>Total item price</th>
+          <th className="text-left">Product name</th>
+          <th className="text-right">Quantity</th>
+          <th className="text-right">Price per item</th>
+          <th className="text-right">Total item value</th>
         </tr>
       </thead>
       <tbody>{renderCartItems()}</tbody>
