@@ -6,7 +6,7 @@ const NO_ITEMS_IN_CART_TEXT =
   "There are currently no products in the shopping cart";
 
 const MODAL_TITLE = "Your shopping cart";
-const CLOSE_BTN_TEXT = "Close";
+const CLOSE_BTN_TEXT = "Close cart";
 const CHECKOUT_BTN_TEXT = "To checkout";
 
 export default function Cart({
@@ -16,10 +16,10 @@ export default function Cart({
   addToCart,
   removeFromCart
 }) {
-  const itemsInCart = cart.length;
+  const itemsInCartCount = cart.length;
 
   function renderCartItemList() {
-    if (itemsInCart > 0) {
+    if (itemsInCartCount > 0) {
       return (
         <CartItemList
           cart={cart}
@@ -39,7 +39,7 @@ export default function Cart({
       <Modal.Body>{renderCartItemList()}</Modal.Body>
       <Modal.Footer>
         <CloseButton toggleCartModal={toggleCartModal} />
-        <CheckoutButton itemsInCart={itemsInCart} />
+        <CheckoutButton itemsInCartCount={itemsInCartCount} />
       </Modal.Footer>
     </Modal>
   );
@@ -55,7 +55,7 @@ Cart.defaultProps = {
 
 function CloseButton({ toggleCartModal }) {
   return (
-    <Button variant="secondary" onClick={toggleCartModal}>
+    <Button variant="outline-secondary" onClick={toggleCartModal}>
       {CLOSE_BTN_TEXT}
     </Button>
   );
@@ -65,13 +65,13 @@ CloseButton.defaultProps = {
   toggleCartModal: () => {}
 };
 
-function CheckoutButton({ itemsInCart }) {
-  if (itemsInCart > 0) {
-    return <Button variant="primary">{CHECKOUT_BTN_TEXT}</Button>;
+function CheckoutButton({ itemsInCartCount }) {
+  if (itemsInCartCount > 0) {
+    return <Button variant="success">{CHECKOUT_BTN_TEXT}</Button>;
   }
   return null;
 }
 
 CheckoutButton.defaultProps = {
-  itemsInCart: 0
+  itemsInCartCount: 0
 };
