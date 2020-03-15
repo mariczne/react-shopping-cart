@@ -90,6 +90,11 @@ export default class ProductDeck extends Component {
             <InfiniteScroll
               hasMore={hasMoreProducts}
               loadMore={this.loadMoreProducts}
+              loader={
+                <div className="d-flex justify-content-center" key={0}>
+                  <Spinner animation="border" />
+                </div>
+              }
             >
               <CardDeck className="justify-content-center">
                 {this.renderFilteredProducts()}
