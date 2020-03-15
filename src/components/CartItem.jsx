@@ -11,14 +11,14 @@ export default function CartItem({
 }) {
   return (
     <tr>
-      <td>{name}</td>
-      <td className="d-flex justify-content-around">
+      <td className="align-middle">{name}</td>
+      <td className="align-middle text-nowrap">
         <DecrementButton id={id} removeFromCart={removeFromCart} />
         {quantity}
         <IncrementButton id={id} addToCart={addToCart} />
       </td>
-      <td className="text-right">{price.toFixed(2)}</td>
-      <td className="text-right">
+      <td className="align-middle text-right">{price.toFixed(2)}</td>
+      <td className="align-middle text-right">
         {((100 * price * quantity) / 100).toFixed(2)}
       </td>
     </tr>
@@ -34,9 +34,19 @@ CartItem.defaultProps = {
   removeFromCart: () => {}
 };
 
+const BUTTON_STYLE = { width: "1.25rem", height: "1.25rem" };
+
+const BUTTON_CLASSES = `d-inline-flex justify-content-center align-items-center
+rounded-circle p-0 mx-2`;
 function IncrementButton({ id, addToCart }) {
   return (
-    <Button variant="outline-success" size="sm" onClick={() => addToCart(id)}>
+    <Button
+      variant="outline-success"
+      size="sm"
+      style={BUTTON_STYLE}
+      className={BUTTON_CLASSES}
+      onClick={() => addToCart(id)}
+    >
       +
     </Button>
   );
@@ -52,6 +62,8 @@ function DecrementButton({ id, removeFromCart }) {
     <Button
       variant="outline-danger"
       size="sm"
+      style={BUTTON_STYLE}
+      className={BUTTON_CLASSES}
       onClick={() => removeFromCart(id)}
     >
       -

@@ -34,11 +34,8 @@ export default function CartItemList({ cart, addToCart, removeFromCart }) {
       <tbody>{renderCartItems()}</tbody>
       <tfoot>
         <tr>
-          <th />
-          <th />
-          <th />
-          <th className="text-right">
-            Total order price: {totalPrice.toFixed(2)}
+          <th colSpan="4" className="text-right">
+            Total order value: {totalPrice.toFixed(2)}
           </th>
         </tr>
       </tfoot>
