@@ -3,10 +3,13 @@ import { Row, CardDeck, Spinner } from "react-bootstrap";
 import Product from "./Product.jsx";
 import SearchBox from "./SearchBox.jsx";
 
+const DEFAULT_PRODUCTS_VISIBLE = 25;
+const NO_PRODUCTS_TEXT = "No products fitting the criteria found";
+
 export default class ProductDeck extends Component {
   state = {
     searchValue: "",
-    productsToShow: 25
+    productsToShow: DEFAULT_PRODUCTS_VISIBLE
   };
 
   componentWillMount() {
@@ -25,14 +28,19 @@ export default class ProductDeck extends Component {
       document.scrollingElement.scrollHeight;
     if (endOfPageReached) {
       this.setState(state => {
-        return { productsToShow: state.productsToShow + 25 };
+        return {
+          productsToShow: state.productsToShow + DEFAULT_PRODUCTS_VISIBLE
+        };
       });
     }
   };
 
   onSearchChange = e => {
     const targetValue = e.target.value;
-    this.setState({ searchValue: targetValue, productsToShow: 25 });
+    this.setState({
+      searchValue: targetValue,
+      productsToShow: DEFAULT_PRODUCTS_VISIBLE
+    });
   };
 
   filterProducts = products => {
@@ -48,7 +56,7 @@ export default class ProductDeck extends Component {
   };
 
   renderFilteredProducts = () => {
-    const { products, addToCart } = this.props;
+    const { products, cart, addToCart } = this.props;
     const { productsToShow } = this.state;
     const filteredProducts = this.filterProducts(products).slice(
       0,
@@ -57,15 +65,27 @@ export default class ProductDeck extends Component {
     if (filteredProducts.length === 0) {
       return <p>{NO_PRODUCTS_TEXT}</p>;
     }
-    return filteredProducts.map(product => (
-      <Product
-        key={product.id}
-        id={product.id}
-        name={product.name}
-        price={product.price}
-        addToCart={addToCart}
-      />
-    ));
+    return filteredProducts.map(product => {
+      const productInCart = cart.find(
+        productInCart => productInCart.id === product.id
+      );
+      let inCartQuantity;
+      if (productInCart) {
+        inCartQuantity = productInCart.quantity;
+      } else {
+        inCartQuantity = 0;
+      }
+      return (
+        <Product
+          key={product.id}
+          id={product.id}
+          name={product.name}
+          price={product.price}
+          addToCart={addToCart}
+          inCartQuantity={inCartQuantity}
+        />
+      );
+    });
   };
 
   render() {
@@ -94,7 +114,6 @@ export default class ProductDeck extends Component {
 ProductDeck.defaultProps = {
   dataState: "loading",
   products: [],
+  cart: [],
   addToCart: () => {}
 };
-
-const NO_PRODUCTS_TEXT = "No products fitting the criteria found";
