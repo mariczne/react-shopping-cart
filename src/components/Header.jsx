@@ -2,8 +2,8 @@ import React from "react";
 import { Navbar, Container, Badge, Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 
-export default function Header({ cart }) {
-  const itemsInCart = cart.reduce((acc, curr) => acc + curr.quantity, 0)
+export default function Header({ cart, toggleCartModal }) {
+  const itemsInCart = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
     <Navbar bg="light">
@@ -18,7 +18,7 @@ export default function Header({ cart }) {
           />{" "}
           React Shopping Cart
         </Navbar.Brand>
-        <Button>
+        <Button onClick={toggleCartModal}>
           <FaShoppingCart size="1rem" />
           <Badge size="big">{itemsInCart || null}</Badge>
         </Button>
@@ -28,5 +28,6 @@ export default function Header({ cart }) {
 }
 
 Header.defaltProps = {
-  cart: []
+  cart: [],
+  toggleCartModal: () => {}
 };
