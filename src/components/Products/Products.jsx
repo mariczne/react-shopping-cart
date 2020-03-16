@@ -9,13 +9,13 @@ const DEFAULT_PRODUCTS_VISIBLE = 25;
 export default class Products extends Component {
   state = {
     searchValue: "",
-    productsToShow: DEFAULT_PRODUCTS_VISIBLE
+    productsToShowCount: DEFAULT_PRODUCTS_VISIBLE
   };
 
   loadMoreProducts = () => {
     this.setState(state => {
       return {
-        productsToShow: state.productsToShow + DEFAULT_PRODUCTS_VISIBLE
+        productsToShowCount: state.productsToShowCount + DEFAULT_PRODUCTS_VISIBLE
       };
     });
   };
@@ -24,14 +24,14 @@ export default class Products extends Component {
     const targetValue = e.target.value;
     this.setState({
       searchValue: targetValue,
-      productsToShow: DEFAULT_PRODUCTS_VISIBLE
+      productsToShowCount: DEFAULT_PRODUCTS_VISIBLE
     });
   };
 
   render() {
-    const { searchValue, productsToShow } = this.state;
+    const { searchValue, productsToShowCount } = this.state;
     const { dataState, products, cart, addToCart } = this.props;
-    const hasMoreProducts = products.length > productsToShow;
+    const hasMoreProducts = products.length > productsToShowCount;
 
     return (
       <>
@@ -56,7 +56,7 @@ export default class Products extends Component {
                 products={products}
                 cart={cart}
                 addToCart={addToCart}
-                productsToShow={productsToShow}
+                productsToShowCount={productsToShowCount}
                 searchValue={searchValue}
               />
             </InfiniteScroll>

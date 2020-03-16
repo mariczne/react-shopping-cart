@@ -8,7 +8,7 @@ export default function FilteredProducts({
   products,
   cart,
   addToCart,
-  productsToShow,
+  productsToShowCount,
   searchValue
 }) {
   const filterProducts = products => {
@@ -24,7 +24,7 @@ export default function FilteredProducts({
     return [];
   };
 
-  const filteredProducts = filterProducts(products).slice(0, productsToShow);
+  const filteredProducts = filterProducts(products).slice(0, productsToShowCount);
 
   if (filteredProducts.length === 0) {
     return (
@@ -60,6 +60,6 @@ FilteredProducts.defaultProps = {
   products: [],
   cart: [],
   addToCart: () => {},
-  productsToShow: 25,
+  productsToShowCount: 25,
   searchValue: ""
 };
