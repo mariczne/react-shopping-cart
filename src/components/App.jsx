@@ -12,21 +12,27 @@ const DATA_STATES = { loading: "loading", loaded: "loaded" };
 export default class App extends Component {
   state = {
     dataState: DATA_STATES.loading,
-    showCart: false,
+    showCartModal: false,
     products: [],
     cart: []
   };
 
-  async componentDidMount() {
-    const response = await fetch(API_URL);
-    const products = await response.json();
-    this.setState({ products, dataState: DATA_STATES.loaded });
+  componentDidMount() {
+    this.fetchProducts(API_URL).then(products =>
+      this.setState({ products, dataState: DATA_STATES.loaded })
+    );
   }
+
+  fetchProducts = async url => {
+    const response = await fetch(url);
+    const products = await response.json();
+    return products;
+  };
 
   toggleCartModal = () => {
     this.setState(state => {
       return {
-        showCart: !state.showCart
+        showCartModal: !state.showCartModal
       };
     });
   };
@@ -34,7 +40,7 @@ export default class App extends Component {
   addToCart = id => {
     this.setState(state => {
       const isProductAlreadyInCart = !!state.cart.find(
-        product => product.id === id
+        productInCart => productInCart.id === id
       );
 
       if (isProductAlreadyInCart) {
@@ -55,11 +61,15 @@ export default class App extends Component {
 
   removeFromCart = id => {
     this.setState(state => {
-      const productInCart = state.cart.find(product => product.id === id);
+      const productInCart = state.cart.find(
+        productInCart => productInCart.id === id
+      );
 
       if (productInCart) {
         if (productInCart.quantity < 2) {
-          return { cart: state.cart.filter(product => product.id !== id) };
+          return {
+            cart: state.cart.filter(productInCart => productInCart.id !== id)
+          };
         }
 
         return {
@@ -75,13 +85,13 @@ export default class App extends Component {
   };
 
   render() {
-    const { dataState, products, cart, showCart } = this.state;
+    const { dataState, products, cart, showCartModal } = this.state;
 
     return (
       <>
         <Header cart={cart} toggleCartModal={this.toggleCartModal} />
         <Cart
-          showCart={showCart}
+          showCartModal={showCartModal}
           toggleCartModal={this.toggleCartModal}
           cart={cart}
           addToCart={this.addToCart}
