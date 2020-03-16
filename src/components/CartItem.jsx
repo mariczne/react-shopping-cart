@@ -38,6 +38,7 @@ const BUTTON_STYLE = { width: "1.5rem", height: "1.5rem" };
 
 const BUTTON_CLASSES = `d-inline-flex justify-content-center align-items-center
 rounded-circle p-0`;
+
 function IncrementButton({ id, addToCart }) {
   return (
     <Button

@@ -1,16 +1,14 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import { FaShoppingCart } from "react-icons/fa";
 import CartItemList from "./CartItemList.jsx";
 
-const NO_ITEMS_IN_CART_TEXT =
-  "There are currently no products in the shopping cart";
-
-const MODAL_TITLE = "Your shopping cart";
+const MODAL_TITLE = `Your shopping cart`;
 const CLOSE_BTN_TEXT = "Close cart";
 const CHECKOUT_BTN_TEXT = "To checkout";
 
 export default function Cart({
-  showCart,
+  showCartModal,
   toggleCartModal,
   cart,
   addToCart,
@@ -18,25 +16,21 @@ export default function Cart({
 }) {
   const itemsInCartCount = cart.length;
 
-  function renderCartItemList() {
-    if (itemsInCartCount > 0) {
-      return (
+  return (
+    <Modal show={showCartModal} onHide={toggleCartModal} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>
+          <FaShoppingCart size="2.5rem" /> {MODAL_TITLE}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <CartItemList
+          itemsInCartCount={itemsInCartCount}
           cart={cart}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
         />
-      );
-    }
-    return NO_ITEMS_IN_CART_TEXT;
-  }
-
-  return (
-    <Modal show={showCart} onHide={toggleCartModal} size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>{MODAL_TITLE}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>{renderCartItemList()}</Modal.Body>
+      </Modal.Body>
       <Modal.Footer>
         <CloseButton toggleCartModal={toggleCartModal} />
         <CheckoutButton itemsInCartCount={itemsInCartCount} />
@@ -46,7 +40,7 @@ export default function Cart({
 }
 
 Cart.defaultProps = {
-  showCart: false,
+  showCartModal: false,
   toggleCartModal: () => {},
   cart: [],
   addToCart: () => {},

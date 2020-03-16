@@ -1,8 +1,8 @@
 import React from "react";
-import { Navbar, Container, Badge, Button } from "react-bootstrap";
+import { Navbar, Container, Badge, Button, Nav } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 
-const APP_NAME = "React Shopping Cart";
+const APP_NAME = "Shopping Cart";
 
 const BADGE_STYLE = { width: "1.5rem", height: "1.5rem" };
 
@@ -13,20 +13,28 @@ export default function Header({ cart, toggleCartModal }) {
   const itemsInCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
-    <Navbar bg="light">
+    <Navbar bg="light" sticky="top">
       <Container>
-        <Navbar.Brand href="https://github.com/mariczne/react-shopping-cart">
+        <Navbar.Brand href="#">
           <img
             src="/logo512.png"
             width="30"
             height="30"
             className="d-inline-block align-top"
             alt="React Shopping Cart"
-          />{" "}
+          />
+        </Navbar.Brand>
+        <Navbar.Brand href="#" className="d-none d-sm-inline-block">
           {APP_NAME}
         </Navbar.Brand>
+        <Nav className="mr-auto">
+          <Nav.Link href="https://github.com/mariczne/react-shopping-cart">
+            GitHub repo
+          </Nav.Link>
+        </Nav>
         <Button
           variant={itemsInCartCount ? "primary" : "outline-secondary"}
+          className="text-nowrap"
           onClick={toggleCartModal}
         >
           <FaShoppingCart size="1.5rem" />

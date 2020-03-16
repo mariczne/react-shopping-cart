@@ -3,7 +3,19 @@ import { Table } from "react-bootstrap";
 
 import CartItem from "./CartItem.jsx";
 
-export default function CartItemList({ cart, addToCart, removeFromCart }) {
+const NO_ITEMS_IN_CART_TEXT =
+  "There are currently no products in the shopping cart";
+
+export default function CartItemList({
+  itemsInCartCount,
+  cart,
+  addToCart,
+  removeFromCart
+}) {
+  if (itemsInCartCount < 1) {
+    return NO_ITEMS_IN_CART_TEXT;
+  }
+
   function renderCartItems() {
     return cart.map(item => (
       <CartItem
