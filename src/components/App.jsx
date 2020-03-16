@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Header from "./Header.jsx";
-import ProductDeck from "./ProductDeck.jsx";
-import Cart from "./Cart.jsx";
+import TopBar from "./TopBar.jsx";
+import Products from "./Products/Products.jsx";
+import Cart from "./Cart/Cart.jsx";
 
 const API_URL = // bypassing CORS via proxy for now
   "https://cors-anywhere.herokuapp.com/https://www.reasonapps.pl/data.json";
@@ -39,13 +39,14 @@ export default class App extends Component {
 
   addToCart = id => {
     this.setState(state => {
-      const isProductAlreadyInCart = !!state.cart.find(
+      const { cart, products } = state;
+      const isProductAlreadyInCart = !!cart.find(
         productInCart => productInCart.id === id
       );
 
       if (isProductAlreadyInCart) {
         return {
-          cart: state.cart.map(productInCart => {
+          cart: cart.map(productInCart => {
             if (productInCart.id === id) {
               return { ...productInCart, quantity: productInCart.quantity + 1 };
             }
@@ -54,26 +55,25 @@ export default class App extends Component {
         };
       }
 
-      const product = state.products.find(product => product.id === id);
-      return { cart: [...state.cart, { ...product, quantity: 1 }] };
+      const product = products.find(product => product.id === id);
+      return { cart: [...cart, { ...product, quantity: 1 }] };
     });
   };
 
   removeFromCart = id => {
     this.setState(state => {
-      const productInCart = state.cart.find(
-        productInCart => productInCart.id === id
-      );
+      const { cart } = state;
+      const productInCart = cart.find(productInCart => productInCart.id === id);
 
       if (productInCart) {
         if (productInCart.quantity < 2) {
           return {
-            cart: state.cart.filter(productInCart => productInCart.id !== id)
+            cart: cart.filter(productInCart => productInCart.id !== id)
           };
         }
 
         return {
-          cart: state.cart.map(productInCart => {
+          cart: cart.map(productInCart => {
             if (productInCart.id === id) {
               return { ...productInCart, quantity: productInCart.quantity - 1 };
             }
@@ -89,7 +89,7 @@ export default class App extends Component {
 
     return (
       <>
-        <Header cart={cart} toggleCartModal={this.toggleCartModal} />
+        <TopBar cart={cart} toggleCartModal={this.toggleCartModal} />
         <Cart
           showCartModal={showCartModal}
           toggleCartModal={this.toggleCartModal}
@@ -100,7 +100,7 @@ export default class App extends Component {
         <Container>
           <Row>
             <Col>
-              <ProductDeck
+              <Products
                 dataState={dataState}
                 products={products}
                 cart={cart}

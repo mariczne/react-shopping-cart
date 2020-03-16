@@ -6,7 +6,7 @@ const SEARCH_BOX_PLACEHOLDER = "Search for a product";
 export default function SearchBox({ value, onSearchChange }) {
   return (
     <FormControl
-      type="text"
+      type="search"
       className="m-3"
       placeholder={SEARCH_BOX_PLACEHOLDER}
       value={value}

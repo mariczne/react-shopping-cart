@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar, Container, Badge, Button, Nav } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
+import reactLogo from "../logo192.png";
 
 const APP_NAME = "Shopping Cart";
 
@@ -9,7 +10,7 @@ const BADGE_STYLE = { width: "1.5rem", height: "1.5rem" };
 const BADGE_CLASSES = `d-inline-flex justify-content-center align-items-center
 rounded-circle p-0 ml-2`;
 
-export default function Header({ cart, toggleCartModal }) {
+export default function TopBar({ cart, toggleCartModal }) {
   const itemsInCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
@@ -17,7 +18,7 @@ export default function Header({ cart, toggleCartModal }) {
       <Container>
         <Navbar.Brand href="#">
           <img
-            src="/logo512.png"
+            src={reactLogo}
             width="30"
             height="30"
             className="d-inline-block align-top"
@@ -53,7 +54,7 @@ export default function Header({ cart, toggleCartModal }) {
   );
 }
 
-Header.defaltProps = {
+TopBar.defaltProps = {
   cart: [],
   toggleCartModal: () => {}
 };
