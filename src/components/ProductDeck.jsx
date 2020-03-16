@@ -30,12 +30,11 @@ export default class ProductDeck extends Component {
   };
 
   filterProducts = products => {
+    const { searchValue } = this.state;
     if (products.length > 0) {
       return products.filter(
         product =>
-          product.name
-            .toLowerCase()
-            .indexOf(this.state.searchValue.toLowerCase()) !== -1
+          product.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1
       );
     }
     return [];
@@ -44,23 +43,21 @@ export default class ProductDeck extends Component {
   renderFilteredProducts = () => {
     const { products, cart, addToCart } = this.props;
     const { productsToShow } = this.state;
+
     const filteredProducts = this.filterProducts(products).slice(
       0,
       productsToShow
     );
+
     if (filteredProducts.length === 0) {
       return <p>{NO_PRODUCTS_TEXT}</p>;
     }
+
     return filteredProducts.map(product => {
       const productInCart = cart.find(
         productInCart => productInCart.id === product.id
       );
-      let inCartQuantity;
-      if (productInCart) {
-        inCartQuantity = productInCart.quantity;
-      } else {
-        inCartQuantity = 0;
-      }
+
       return (
         <Product
           key={product.id}
@@ -68,7 +65,7 @@ export default class ProductDeck extends Component {
           name={product.name}
           price={product.price}
           addToCart={addToCart}
-          inCartQuantity={inCartQuantity}
+          quantityInCart={productInCart ? productInCart.quantity : 0}
         />
       );
     });
@@ -78,6 +75,7 @@ export default class ProductDeck extends Component {
     const { searchValue, productsToShow } = this.state;
     const { dataState, products } = this.props;
     const hasMoreProducts = products.length > productsToShow;
+
     return (
       <>
         <Row>

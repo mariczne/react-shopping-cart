@@ -16,7 +16,7 @@ export default function Product({
   id,
   name,
   price,
-  inCartQuantity,
+  quantityInCart,
   addToCart
 }) {
   return (
@@ -31,17 +31,17 @@ export default function Product({
         <Button variant="primary" size="sm" onClick={() => addToCart(id)}>
           {ADD_TO_CART_TEXT}
         </Button>
-        <BadgeInCart inCartQuantity={inCartQuantity} />
+        <BadgeInCart quantityInCart={quantityInCart} />
       </Card.Footer>
     </Card>
   );
 }
 
-function BadgeInCart({ inCartQuantity }) {
-  if (inCartQuantity > 0) {
+function BadgeInCart({ quantityInCart }) {
+  if (quantityInCart > 0) {
     return (
       <Badge variant="success" className="d-flex align-items-center">
-        {inCartQuantity} {IN_CART_TEXT}
+        {quantityInCart} {IN_CART_TEXT}
       </Badge>
     );
   }
@@ -52,6 +52,6 @@ Product.defaultProps = {
   id: 0,
   name: "",
   price: 0,
-  inCartQuantity: 0,
+  quantityInCart: 0,
   addToCart: () => {}
 };
