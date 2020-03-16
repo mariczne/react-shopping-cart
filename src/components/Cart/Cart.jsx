@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import CartItemList from "./CartItemList.jsx";
 
-const MODAL_TITLE = `Your shopping cart`;
+const MODAL_TITLE = `Your cart`;
 const CLOSE_BTN_TEXT = "Close cart";
 const CHECKOUT_BTN_TEXT = "To checkout";
 
