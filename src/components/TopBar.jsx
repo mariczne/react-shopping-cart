@@ -54,7 +54,7 @@ export default function TopBar({ cart, toggleCartModal }) {
   );
 }
 
-TopBar.defaltProps = {
+TopBar.defaultProps = {
   cart: [],
   toggleCartModal: () => {}
 };
