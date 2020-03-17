@@ -14,7 +14,7 @@ export default function TopBar({ cart, toggleCartModal }) {
   const itemsInCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
-    <Navbar bg="light" sticky="top">
+    <Navbar bg="light" fixed="top">
       <Container>
         <Navbar.Brand href="#">
           <img
