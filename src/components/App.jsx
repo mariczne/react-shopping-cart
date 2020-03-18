@@ -98,7 +98,7 @@ export default class App extends Component {
           removeFromCart={this.removeFromCart}
         />
         <Container>
-          <Row>
+          <Row style={{marginTop: 70}}>
             <Col>
               <Products
                 dataState={dataState}
