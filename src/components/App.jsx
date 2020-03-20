@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import TopBar from "./TopBar.jsx";
 import Products from "./Products/Products.jsx";
@@ -9,11 +9,62 @@ const API_URL = // bypassing CORS via proxy for now
 
 const DATA_STATES = { loading: "loading", loaded: "loaded" };
 
+const CART_ACTIONS = {
+  ADD_PRODUCT: "ADD_PRODUCT",
+  REMOVE_PRODUCT: "REMOVE_PRODUCT"
+};
+
+function addProductToCart(product, cart) {
+  const isProductAlreadyInCart = !!cart.find(
+    productInCart => productInCart.id === product.id
+  );
+  if (isProductAlreadyInCart) {
+    return cart.map(productInCart => {
+      if (productInCart.id === product.id) {
+        return { ...productInCart, quantity: productInCart.quantity + 1 };
+      }
+      return productInCart;
+    });
+  } else {
+    return [...cart, { ...product, quantity: 1 }];
+  }
+}
+
+function removeProductFromCart(productId, cart) {
+  const productInCart = cart.find(
+    productInCart => productInCart.id === productId
+  );
+
+  if (productInCart) {
+    if (productInCart.quantity < 2) {
+      return cart.filter(productInCart => productInCart.id !== productId);
+    } else {
+      return cart.map(productInCart => {
+        if (productInCart.id === productId) {
+          return { ...productInCart, quantity: productInCart.quantity - 1 };
+        }
+        return productInCart;
+      });
+    }
+  }
+}
+
+function cartReducer(state, action) {
+  switch (action.type) {
+    case CART_ACTIONS.ADD_PRODUCT:
+      return addProductToCart(action.product, state);
+    case CART_ACTIONS.REMOVE_PRODUCT:
+      return removeProductFromCart(action.productId, state);
+    default:
+      return state;
+  }
+}
+
 export default function App() {
   const [dataState, setDataState] = useState(DATA_STATES.loading);
   const [showCartModal, setCartModalVisibility] = useState(false);
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, dispatch] = useReducer(cartReducer, []);
 
   useEffect(() => {
     fetchProducts(API_URL).then(products => {
@@ -33,41 +84,12 @@ export default function App() {
   };
 
   const addToCart = id => {
-    const isProductAlreadyInCart = !!cart.find(
-      productInCart => productInCart.id === id
-    );
-    if (isProductAlreadyInCart) {
-      setCart(
-        cart.map(productInCart => {
-          if (productInCart.id === id) {
-            return { ...productInCart, quantity: productInCart.quantity + 1 };
-          }
-          return productInCart;
-        })
-      );
-    } else {
-      const product = products.find(product => product.id === id);
-      setCart([...cart, { ...product, quantity: 1 }]);
-    }
+    const product = products.find(product => product.id === id);
+    dispatch({ type: CART_ACTIONS.ADD_PRODUCT, product });
   };
 
   const removeFromCart = id => {
-    const productInCart = cart.find(productInCart => productInCart.id === id);
-
-    if (productInCart) {
-      if (productInCart.quantity < 2) {
-        setCart(cart.filter(productInCart => productInCart.id !== id));
-      } else {
-        setCart(
-          cart.map(productInCart => {
-            if (productInCart.id === id) {
-              return { ...productInCart, quantity: productInCart.quantity - 1 };
-            }
-            return productInCart;
-          })
-        );
-      }
-    }
+    dispatch({ type: CART_ACTIONS.REMOVE_PRODUCT, productId: id });
   };
 
   return (
