@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import cartReducer, { CART_ACTIONS } from "../reducers/cartReducer";
+import cartReducer from "../reducers/cartReducer";
+import { addProductToCart, removeProductFromCart } from "../actions/cart";
 import TopBar from "./TopBar.jsx";
 import Products from "./Products/Products.jsx";
 import Cart from "./Cart/Cart.jsx";
@@ -10,8 +11,6 @@ const API_URL = // bypassing CORS via proxy for now
 
 const DATA_STATES = { loading: "loading", loaded: "loaded" };
 
-const { ADD_PRODUCT, REMOVE_PRODUCT } = CART_ACTIONS;
-
 export default function App() {
   const [dataState, setDataState] = useState(DATA_STATES.loading);
   const [showCartModal, setCartModalVisibility] = useState(false);
@@ -19,17 +18,16 @@ export default function App() {
   const [cart, dispatch] = useReducer(cartReducer, []);
 
   useEffect(() => {
+    const fetchProducts = async url => {
+      const response = await fetch(url);
+      const products = await response.json();
+      return products;
+    };
     fetchProducts(API_URL).then(products => {
       setProducts(products);
       setDataState(DATA_STATES.loaded);
     });
   }, []);
-
-  const fetchProducts = async url => {
-    const response = await fetch(url);
-    const products = await response.json();
-    return products;
-  };
 
   const toggleCartModal = () => {
     setCartModalVisibility(!showCartModal);
@@ -37,11 +35,11 @@ export default function App() {
 
   const addToCart = id => {
     const product = products.find(product => product.id === id);
-    dispatch({ type: ADD_PRODUCT, product });
+    dispatch(addProductToCart(product, cart));
   };
 
   const removeFromCart = id => {
-    dispatch({ type: REMOVE_PRODUCT, productId: id });
+    dispatch(removeProductFromCart(id, cart));
   };
 
   return (
