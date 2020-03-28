@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import cartReducer from "../reducers/cartReducer";
-import { addProductToCart, removeProductFromCart } from "../actions/cart";
+import { addProductToCart, removeProductFromCart } from "../actions/cartActions";
 import TopBar from "./TopBar.jsx";
 import Products from "./Products/Products.jsx";
 import Cart from "./Cart/Cart.jsx";
