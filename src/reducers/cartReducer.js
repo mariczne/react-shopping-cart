@@ -1,4 +1,4 @@
-import { CART } from "../actions/cart";
+import { CART } from "../actions/cartActions";
 
 export default function cartReducer(cart, action) {
   switch (action.type) {
