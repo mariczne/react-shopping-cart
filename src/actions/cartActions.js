@@ -22,9 +22,9 @@ export function removeProductFromCart(productId, cart) {
   );
 
   if (productInCart) {
-    if (productInCart.quantity < 2) {
-      return { type: CART.REMOVE_PRODUCT, payload: { productId } };
+    if (productInCart.quantity > 1) {
+      return { type: CART.DECREMENT_PRODUCT_QUANTITY, payload: { productId } };
     }
-    return { type: CART.DECREMENT_PRODUCT_QUANTITY, payload: { productId } };
+    return { type: CART.REMOVE_PRODUCT, payload: { productId } };
   }
 }
