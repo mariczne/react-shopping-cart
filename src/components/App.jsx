@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import cartReducer from "../reducers/cartReducer";
-import { addProductToCart, removeProductFromCart } from "../actions/cartActions";
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from "../actions/cartActions";
 import TopBar from "./TopBar.jsx";
 import Products from "./Products/Products.jsx";
 import Cart from "./Cart/Cart.jsx";
 
-const API_URL = // bypassing CORS via proxy for now
-  "https://cors-anywhere.herokuapp.com/https://www.reasonapps.pl/data.json";
+const API_URL = "/react-shopping-cart/data.json";
 
 const DATA_STATES = { loading: "loading", loaded: "loaded" };
 
@@ -18,12 +20,12 @@ export default function App() {
   const [cart, dispatch] = useReducer(cartReducer, []);
 
   useEffect(() => {
-    const fetchProducts = async url => {
+    const fetchProducts = async (url) => {
       const response = await fetch(url);
       const products = await response.json();
       return products;
     };
-    fetchProducts(API_URL).then(products => {
+    fetchProducts(API_URL).then((products) => {
       setProducts(products);
       setDataState(DATA_STATES.loaded);
     });
@@ -33,12 +35,12 @@ export default function App() {
     setCartModalVisibility(!showCartModal);
   };
 
-  const addToCart = id => {
-    const product = products.find(product => product.id === id);
+  const addToCart = (id) => {
+    const product = products.find((product) => product.id === id);
     dispatch(addProductToCart(product, cart));
   };
 
-  const removeFromCart = id => {
+  const removeFromCart = (id) => {
     dispatch(removeProductFromCart(id, cart));
   };
 
