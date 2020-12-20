@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import CartItemList from "./CartItemList.jsx";

@@ -1,4 +1,3 @@
-import React from "react";
 import { FormControl } from "react-bootstrap";
 
 const SEARCH_BOX_PLACEHOLDER = "Search for a product";

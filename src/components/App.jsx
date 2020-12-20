@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import cartReducer from "../reducers/cartReducer";
 import {

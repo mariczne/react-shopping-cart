@@ -1,4 +1,3 @@
-import React from "react";
 import { Navbar, Container, Badge, Button, Nav } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import reactLogo from "../logo192.png";

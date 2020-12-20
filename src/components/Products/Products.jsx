@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Row, Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
 import SearchBox from "./SearchBox.jsx";
