@@ -42,7 +42,7 @@ function FilteredProducts({
   }
 
   return (
-    <CardDeck>
+    <CardDeck role="list">
       {filteredProducts.map((product) => {
         const productInCart = cart.find(
           (productInCart) => productInCart.id === product.id

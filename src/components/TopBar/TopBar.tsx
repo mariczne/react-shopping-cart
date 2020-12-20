@@ -3,9 +3,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import reactLogo from "./react-logo.png";
 
 const APP_NAME = "Shopping Cart";
-
 const BADGE_STYLE = { width: "1.5rem", height: "1.5rem" };
-
 const BADGE_CLASSES = `d-inline-flex justify-content-center align-items-center
 rounded-circle p-0 ml-2`;
 

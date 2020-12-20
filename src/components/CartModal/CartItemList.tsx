@@ -44,7 +44,7 @@ function CartItemList({ cart, addToCart, removeFromCart }: CartItemListProps) {
           <th className="text-right">Total item value</th>
         </tr>
       </thead>
-      <tbody>{renderCartItems()}</tbody>
+      <tbody role="list">{renderCartItems()}</tbody>
       <tfoot>
         <tr>
           <th colSpan={4} className="text-right">
