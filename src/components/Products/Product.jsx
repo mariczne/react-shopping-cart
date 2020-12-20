@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, Button, Badge, Col } from "react-bootstrap";
 
 const COL_STYLE = {

@@ -1,4 +1,3 @@
-import React from "react";
 import { Row, CardDeck } from "react-bootstrap";
 import Product from "./Product.jsx";
 
