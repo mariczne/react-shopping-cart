@@ -1,4 +1,5 @@
 import { Button } from "react-bootstrap";
+import { ComponentProps } from "react";
 import { ProductInCart } from "types";
 import { CartItemListProps } from "./CartItemList";
 
@@ -14,12 +15,12 @@ function CartItem({
   removeFromCart,
 }: CartItemProps) {
   return (
-    <tr>
+    <tr role="listitem">
       <td className="align-middle">{name}</td>
       <td className="align-middle text-right text-nowrap">
-        <DecrementButton id={id} removeFromCart={removeFromCart} />
+        <DecrementButton removeFromCart={() => removeFromCart(id)} />
         <span className="mx-2">{quantity}</span>
-        <IncrementButton id={id} addToCart={addToCart} />
+        <IncrementButton addToCart={() => addToCart(id)} />
       </td>
       <td className="align-middle text-right">{price.toFixed(2)}</td>
       <td className="align-middle text-right">
@@ -29,40 +30,39 @@ function CartItem({
   );
 }
 
-const BUTTON_STYLE = { width: "1.5rem", height: "1.5rem" };
-
-const BUTTON_CLASSES = `d-inline-flex justify-content-center align-items-center
-rounded-circle p-0`;
-
-export type IncrementButtonProps = Pick<CartItemProps, "id" | "addToCart">;
-
-function IncrementButton({ id, addToCart }: IncrementButtonProps) {
+function ActionButton(props: ComponentProps<typeof Button>) {
   return (
     <Button
-      variant="outline-success"
       size="sm"
-      style={BUTTON_STYLE}
-      className={BUTTON_CLASSES}
-      onClick={() => addToCart(id)}
-    >
-      +
-    </Button>
+      style={{ width: "1.5rem", height: "1.5rem" }}
+      className="d-inline-flex justify-content-center align-items-center
+  rounded-circle p-0"
+      {...props}
+    />
   );
 }
 
-export type DecrementButtonProps = Pick<CartItemProps, "id" | "removeFromCart">;
+export interface IncrementButtonProps {
+  addToCart: () => void;
+}
 
-function DecrementButton({ id, removeFromCart }: DecrementButtonProps) {
+function IncrementButton({ addToCart }: IncrementButtonProps) {
   return (
-    <Button
-      variant="outline-danger"
-      size="sm"
-      style={BUTTON_STYLE}
-      className={BUTTON_CLASSES}
-      onClick={() => removeFromCart(id)}
-    >
+    <ActionButton variant="outline-success" onClick={addToCart}>
+      +
+    </ActionButton>
+  );
+}
+
+export interface DecrementButtonProps {
+  removeFromCart: () => void;
+}
+
+function DecrementButton({ removeFromCart }: DecrementButtonProps) {
+  return (
+    <ActionButton variant="outline-danger" onClick={removeFromCart}>
       -
-    </Button>
+    </ActionButton>
   );
 }
 
