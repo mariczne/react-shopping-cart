@@ -1,18 +1,27 @@
 import { Modal, Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
-import CartItemList from "./CartItemList.jsx";
+import { Cart as ICart, Product, ProductInCart } from "types";
+import CartItemList from "./CartItemList";
 
 const MODAL_TITLE = `Your cart`;
 const CLOSE_BTN_TEXT = "Close cart";
 const CHECKOUT_BTN_TEXT = "To checkout";
 
+export interface CartProps {
+  cart: ICart;
+  addToCart: (id: Product["id"]) => void;
+  removeFromCart: (id: ProductInCart["id"]) => void;
+  showCartModal: boolean;
+  toggleCartModal: () => void;
+}
+
 export default function Cart({
-  showCartModal,
-  toggleCartModal,
   cart,
   addToCart,
-  removeFromCart
-}) {
+  removeFromCart,
+  showCartModal,
+  toggleCartModal,
+}: CartProps) {
   const itemsInCartCount = cart.length;
 
   return (
@@ -24,7 +33,6 @@ export default function Cart({
       </Modal.Header>
       <Modal.Body>
         <CartItemList
-          itemsInCartCount={itemsInCartCount}
           cart={cart}
           addToCart={addToCart}
           removeFromCart={removeFromCart}
@@ -38,15 +46,11 @@ export default function Cart({
   );
 }
 
-Cart.defaultProps = {
-  showCartModal: false,
-  toggleCartModal: () => {},
-  cart: [],
-  addToCart: () => {},
-  removeFromCart: () => {}
-};
+export interface CloseButtonProps {
+  toggleCartModal: () => void;
+}
 
-function CloseButton({ toggleCartModal }) {
+function CloseButton({ toggleCartModal }: CloseButtonProps) {
   return (
     <Button variant="outline-secondary" onClick={toggleCartModal}>
       {CLOSE_BTN_TEXT}
@@ -54,17 +58,13 @@ function CloseButton({ toggleCartModal }) {
   );
 }
 
-CloseButton.defaultProps = {
-  toggleCartModal: () => {}
-};
+export interface CheckoutButtonProps {
+  itemsInCartCount: number;
+}
 
-function CheckoutButton({ itemsInCartCount }) {
+function CheckoutButton({ itemsInCartCount }: CheckoutButtonProps) {
   if (itemsInCartCount > 0) {
     return <Button variant="success">{CHECKOUT_BTN_TEXT}</Button>;
   }
   return null;
 }
-
-CheckoutButton.defaultProps = {
-  itemsInCartCount: 0
-};

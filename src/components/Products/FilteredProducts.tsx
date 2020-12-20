@@ -1,29 +1,37 @@
 import { Row, CardDeck } from "react-bootstrap";
-import Product from "./Product.jsx";
+import Product from "./Product";
+import { ProductsListProps } from "./Products";
+import { Product as IProduct } from "types";
 
 const NO_PRODUCTS_TEXT = "No products fitting the criteria found";
+
+export interface FilteredProductsProps
+  extends Omit<ProductsListProps, "dataState"> {
+  productsToShowCount: number;
+  searchValue: string;
+}
 
 export default function FilteredProducts({
   products,
   cart,
   addToCart,
   productsToShowCount,
-  searchValue
-}) {
-  const filterProducts = products => {
+  searchValue,
+}: FilteredProductsProps) {
+  const filterProducts = (products: IProduct[]) => {
     if (products.length > 0) {
-      const searchValues = searchValue
-        .toLowerCase()
-        .trim()
-        .split(" ");
+      const searchValues = searchValue.toLowerCase().trim().split(" ");
 
       const regex = new RegExp(`^(?=.*${searchValues.join(")(?=.*")}).*$`, "i");
-      return products.filter(product => regex.test(product.name));
+      return products.filter((product) => regex.test(product.name));
     }
     return [];
   };
 
-  const filteredProducts = filterProducts(products).slice(0, productsToShowCount);
+  const filteredProducts = filterProducts(products).slice(
+    0,
+    productsToShowCount
+  );
 
   if (filteredProducts.length === 0) {
     return (
@@ -35,9 +43,9 @@ export default function FilteredProducts({
 
   return (
     <CardDeck>
-      {filteredProducts.map(product => {
+      {filteredProducts.map((product) => {
         const productInCart = cart.find(
-          productInCart => productInCart.id === product.id
+          (productInCart) => productInCart.id === product.id
         );
 
         return (
@@ -47,18 +55,10 @@ export default function FilteredProducts({
             name={product.name}
             price={product.price}
             addToCart={addToCart}
-            quantityInCart={productInCart ? productInCart.quantity : 0}
+            quantity={productInCart ? productInCart.quantity : 0}
           />
         );
       })}
     </CardDeck>
   );
 }
-
-FilteredProducts.defaultProps = {
-  products: [],
-  cart: [],
-  addToCart: () => {},
-  productsToShowCount: 25,
-  searchValue: ""
-};

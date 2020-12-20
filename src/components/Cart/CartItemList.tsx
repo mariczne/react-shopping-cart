@@ -1,22 +1,29 @@
 import { Table } from "react-bootstrap";
+import { CartProps } from "./Cart";
 
-import CartItem from "./CartItem.jsx";
+import CartItem from "./CartItem";
 
 const NO_ITEMS_IN_CART_TEXT =
   "There are currently no products in the shopping cart";
 
+export type CartItemListProps = Pick<
+  CartProps,
+  "cart" | "addToCart" | "removeFromCart"
+>;
+
 export default function CartItemList({
-  itemsInCartCount,
   cart,
   addToCart,
-  removeFromCart
-}) {
+  removeFromCart,
+}: CartItemListProps) {
+  const itemsInCartCount = cart.length;
+
   if (itemsInCartCount < 1) {
-    return NO_ITEMS_IN_CART_TEXT;
+    return <>{NO_ITEMS_IN_CART_TEXT}</>;
   }
 
   function renderCartItems() {
-    return cart.map(item => (
+    return cart.map((item) => (
       <CartItem
         key={item.id}
         id={item.id}
@@ -45,7 +52,7 @@ export default function CartItemList({
       <tbody>{renderCartItems()}</tbody>
       <tfoot>
         <tr>
-          <th colSpan="4" className="text-right">
+          <th colSpan={4} className="text-right">
             Total order value: {totalPrice.toFixed(2)}
           </th>
         </tr>
@@ -57,5 +64,5 @@ export default function CartItemList({
 CartItemList.defaultProps = {
   cart: [],
   addToCart: () => {},
-  removeFromCart: () => {}
+  removeFromCart: () => {},
 };

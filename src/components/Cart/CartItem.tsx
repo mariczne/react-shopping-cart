@@ -1,4 +1,9 @@
 import { Button } from "react-bootstrap";
+import { ProductInCart } from "types";
+import { CartItemListProps } from "./CartItemList";
+
+export type CartItemProps = ProductInCart &
+  Pick<CartItemListProps, "addToCart" | "removeFromCart">;
 
 export default function CartItem({
   id,
@@ -6,8 +11,8 @@ export default function CartItem({
   quantity,
   price,
   addToCart,
-  removeFromCart
-}) {
+  removeFromCart,
+}: CartItemProps) {
   return (
     <tr>
       <td className="align-middle">{name}</td>
@@ -24,21 +29,14 @@ export default function CartItem({
   );
 }
 
-CartItem.defaultProps = {
-  id: 0,
-  name: "default product",
-  quantity: 0,
-  price: 0,
-  addToCart: () => {},
-  removeFromCart: () => {}
-};
-
 const BUTTON_STYLE = { width: "1.5rem", height: "1.5rem" };
 
 const BUTTON_CLASSES = `d-inline-flex justify-content-center align-items-center
 rounded-circle p-0`;
 
-function IncrementButton({ id, addToCart }) {
+export type IncrementButtonProps = Pick<CartItemProps, "id" | "addToCart">;
+
+function IncrementButton({ id, addToCart }: IncrementButtonProps) {
   return (
     <Button
       variant="outline-success"
@@ -52,12 +50,9 @@ function IncrementButton({ id, addToCart }) {
   );
 }
 
-IncrementButton.defaultProps = {
-  id: 0,
-  addToCart: () => {}
-};
+export type DecrementButtonProps = Pick<CartItemProps, "id" | "removeFromCart">;
 
-function DecrementButton({ id, removeFromCart }) {
+function DecrementButton({ id, removeFromCart }: DecrementButtonProps) {
   return (
     <Button
       variant="outline-danger"
@@ -70,8 +65,3 @@ function DecrementButton({ id, removeFromCart }) {
     </Button>
   );
 }
-
-DecrementButton.defaultProps = {
-  id: 0,
-  removeFromCart: () => {}
-};

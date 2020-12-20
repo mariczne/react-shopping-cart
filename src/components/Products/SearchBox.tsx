@@ -2,7 +2,12 @@ import { FormControl } from "react-bootstrap";
 
 const SEARCH_BOX_PLACEHOLDER = "Search for a product";
 
-export default function SearchBox({ value, onSearchChange }) {
+export interface SearchBoxProps {
+  value: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export default function SearchBox({ value, onSearchChange }: SearchBoxProps) {
   return (
     <FormControl
       type="search"
@@ -13,8 +18,3 @@ export default function SearchBox({ value, onSearchChange }) {
     />
   );
 }
-
-SearchBox.defaultProps = {
-  value: "",
-  onSearchChange: () => {}
-};
