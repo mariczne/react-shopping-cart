@@ -5,7 +5,7 @@ import { CartItemListProps } from "./CartItemList";
 export type CartItemProps = ProductInCart &
   Pick<CartItemListProps, "addToCart" | "removeFromCart">;
 
-export default function CartItem({
+function CartItem({
   id,
   name,
   quantity,
@@ -65,3 +65,5 @@ function DecrementButton({ id, removeFromCart }: DecrementButtonProps) {
     </Button>
   );
 }
+
+export { CartItem };

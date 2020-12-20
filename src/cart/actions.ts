@@ -5,6 +5,13 @@ export enum CartActions {
   REMOVE_PRODUCT = "REMOVE_PRODUCT",
 }
 
+export interface CartAction {
+  type: keyof typeof CartActions;
+  payload: {
+    product: Product;
+  };
+}
+
 export function addProductToCart(product: Product) {
   return { type: CartActions.ADD_PRODUCT, payload: { product } };
 }

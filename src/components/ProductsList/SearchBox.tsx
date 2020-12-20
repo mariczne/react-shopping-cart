@@ -7,7 +7,7 @@ export interface SearchBoxProps {
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function SearchBox({ value, onSearchChange }: SearchBoxProps) {
+function SearchBox({ value, onSearchChange }: SearchBoxProps) {
   return (
     <FormControl
       type="search"
@@ -18,3 +18,5 @@ export default function SearchBox({ value, onSearchChange }: SearchBoxProps) {
     />
   );
 }
+
+export { SearchBox };

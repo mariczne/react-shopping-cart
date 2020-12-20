@@ -1,7 +1,7 @@
 import { Row, CardDeck } from "react-bootstrap";
-import Product from "./Product";
-import { ProductsListProps } from "./Products";
-import { Product as IProduct } from "types";
+import { ProductsListItem } from "./ProductsListItem";
+import { ProductsListProps } from "./ProductsList";
+import { Product } from "types";
 
 const NO_PRODUCTS_TEXT = "No products fitting the criteria found";
 
@@ -11,14 +11,14 @@ export interface FilteredProductsProps
   searchValue: string;
 }
 
-export default function FilteredProducts({
+function FilteredProducts({
   products,
   cart,
   addToCart,
   productsToShowCount,
   searchValue,
 }: FilteredProductsProps) {
-  const filterProducts = (products: IProduct[]) => {
+  const filterProducts = (products: Product[]) => {
     if (products.length > 0) {
       const searchValues = searchValue.toLowerCase().trim().split(" ");
 
@@ -49,7 +49,7 @@ export default function FilteredProducts({
         );
 
         return (
-          <Product
+          <ProductsListItem
             key={product.id}
             id={product.id}
             name={product.name}
@@ -62,3 +62,5 @@ export default function FilteredProducts({
     </CardDeck>
   );
 }
+
+export { FilteredProducts };
