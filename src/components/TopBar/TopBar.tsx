@@ -1,6 +1,6 @@
 import { Navbar, Container, Badge, Button, Nav } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
-import reactLogo from "../logo192.png";
+import reactLogo from "./react-logo.png";
 
 const APP_NAME = "Shopping Cart";
 
@@ -14,10 +14,7 @@ export interface TopBarProps {
   toggleCartModal: () => void;
 }
 
-export default function TopBar({
-  itemsInCartCount,
-  toggleCartModal,
-}: TopBarProps) {
+function TopBar({ itemsInCartCount, toggleCartModal }: TopBarProps) {
   return (
     <Navbar bg="light" fixed="top">
       <Container>
@@ -59,7 +56,4 @@ export default function TopBar({
   );
 }
 
-TopBar.defaultProps = {
-  cart: [],
-  toggleCartModal: () => {},
-};
+export { TopBar };

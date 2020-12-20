@@ -1,27 +1,28 @@
 import { Modal, Button } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
-import { Cart as ICart, Product, ProductInCart } from "types";
-import CartItemList from "./CartItemList";
+import { CartItemList } from "./CartItemList";
+import { CartState } from "cart";
+import { Product, ProductInCart } from "types";
 
-const MODAL_TITLE = `Your cart`;
+const MODAL_TITLE = "Your cart";
 const CLOSE_BTN_TEXT = "Close cart";
 const CHECKOUT_BTN_TEXT = "To checkout";
 
-export interface CartProps {
-  cart: ICart;
+export interface CartModalProps {
+  cart: CartState;
   addToCart: (id: Product["id"]) => void;
   removeFromCart: (id: ProductInCart["id"]) => void;
   showCartModal: boolean;
   toggleCartModal: () => void;
 }
 
-export default function Cart({
+function CartModal({
   cart,
   addToCart,
   removeFromCart,
   showCartModal,
   toggleCartModal,
-}: CartProps) {
+}: CartModalProps) {
   const itemsInCartCount = cart.length;
 
   return (
@@ -39,32 +40,15 @@ export default function Cart({
         />
       </Modal.Body>
       <Modal.Footer>
-        <CloseButton toggleCartModal={toggleCartModal} />
-        <CheckoutButton itemsInCartCount={itemsInCartCount} />
+        <Button variant="outline-secondary" onClick={toggleCartModal}>
+          {CLOSE_BTN_TEXT}
+        </Button>
+        {itemsInCartCount > 0 && (
+          <Button variant="success">{CHECKOUT_BTN_TEXT}</Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
 }
 
-export interface CloseButtonProps {
-  toggleCartModal: () => void;
-}
-
-function CloseButton({ toggleCartModal }: CloseButtonProps) {
-  return (
-    <Button variant="outline-secondary" onClick={toggleCartModal}>
-      {CLOSE_BTN_TEXT}
-    </Button>
-  );
-}
-
-export interface CheckoutButtonProps {
-  itemsInCartCount: number;
-}
-
-function CheckoutButton({ itemsInCartCount }: CheckoutButtonProps) {
-  if (itemsInCartCount > 0) {
-    return <Button variant="success">{CHECKOUT_BTN_TEXT}</Button>;
-  }
-  return null;
-}
+export { CartModal };

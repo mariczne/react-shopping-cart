@@ -1,44 +1,17 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useReducer } from "react";
+import { cartReducer, addProductToCart, removeProductFromCart } from "cart";
 import { Container, Row, Col } from "react-bootstrap";
-import cartReducer from "../reducers/cartReducer";
-import {
-  addProductToCart,
-  removeProductFromCart,
-} from "../actions/cartActions";
-import TopBar from "./TopBar";
-import Products from "./Products/Products";
-import Cart from "./Cart/Cart";
+import { TopBar } from "components/TopBar";
+import { CartModal } from "components/CartModal";
+import { ProductsList } from "components/ProductsList";
+import { useProducts } from "utils";
 import { Product } from "types";
 
-const API_URL = "/react-shopping-cart/data.json";
-
-export enum DataStates {
-  loading = "loading",
-  loaded = "loaded",
-  error = "error",
-}
-
-export default function App() {
-  const [dataState, setDataState] = useState(DataStates.loading);
-  const [showCartModal, setCartModalVisibility] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
+function App() {
   const [cart, dispatch] = useReducer(cartReducer, []);
+  const [showCartModal, setCartModalVisibility] = useState(false);
 
-  useEffect(() => {
-    const fetchProducts = async (url: string) => {
-      const response = await fetch(url);
-      const products = await response.json();
-
-      try {
-        setProducts(products);
-        setDataState(DataStates.loaded);
-      } catch {
-        setDataState(DataStates.error);
-      }
-    };
-
-    fetchProducts(API_URL);
-  }, []);
+  const { products, dataState } = useProducts();
 
   const toggleCartModal = () => {
     setCartModalVisibility((isVisible) => !isVisible);
@@ -64,7 +37,7 @@ export default function App() {
         itemsInCartCount={itemsInCartCount}
         toggleCartModal={toggleCartModal}
       />
-      <Cart
+      <CartModal
         showCartModal={showCartModal}
         toggleCartModal={toggleCartModal}
         cart={cart}
@@ -74,7 +47,7 @@ export default function App() {
       <Container>
         <Row style={{ marginTop: 70 }}>
           <Col>
-            <Products
+            <ProductsList
               dataState={dataState}
               products={products}
               cart={cart}
@@ -86,3 +59,5 @@ export default function App() {
     </>
   );
 }
+
+export { App };

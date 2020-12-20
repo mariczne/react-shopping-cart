@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Row, Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
-import SearchBox from "./SearchBox";
-import FilteredProducts from "./FilteredProducts";
-import { DataStates } from "components/App";
-import { Cart, Product } from "types";
+import { SearchBox } from "./SearchBox";
+import { FilteredProducts } from "./FilteredProducts";
+import { CartState } from "cart";
+import { Product, DataState } from "types";
 
 const DEFAULT_PRODUCTS_VISIBLE = 25;
 
 export interface ProductsListProps {
-  dataState: keyof typeof DataStates;
+  dataState: DataState;
   products: Product[];
-  cart: Cart;
+  cart: CartState;
   addToCart: (product: Product["id"]) => void;
 }
 
-export default function Products({
+function ProductsList({
   dataState,
   products,
   cart,
@@ -69,3 +69,5 @@ export default function Products({
     </>
   );
 }
+
+export { ProductsList };

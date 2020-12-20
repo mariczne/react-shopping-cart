@@ -1,21 +1,16 @@
 import { Table } from "react-bootstrap";
-import { CartProps } from "./Cart";
-
-import CartItem from "./CartItem";
+import { CartItem } from "./CartItem";
+import { CartModalProps } from "./CartModal";
 
 const NO_ITEMS_IN_CART_TEXT =
   "There are currently no products in the shopping cart";
 
 export type CartItemListProps = Pick<
-  CartProps,
+  CartModalProps,
   "cart" | "addToCart" | "removeFromCart"
 >;
 
-export default function CartItemList({
-  cart,
-  addToCart,
-  removeFromCart,
-}: CartItemListProps) {
+function CartItemList({ cart, addToCart, removeFromCart }: CartItemListProps) {
   const itemsInCartCount = cart.length;
 
   if (itemsInCartCount < 1) {
@@ -61,8 +56,4 @@ export default function CartItemList({
   );
 }
 
-CartItemList.defaultProps = {
-  cart: [],
-  addToCart: () => {},
-  removeFromCart: () => {},
-};
+export { CartItemList };
