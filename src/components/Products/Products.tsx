@@ -1,18 +1,32 @@
 import { useState } from "react";
 import { Row, Spinner } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroller";
-import SearchBox from "./SearchBox.jsx";
-import FilteredProducts from "./FilteredProducts.jsx";
+import SearchBox from "./SearchBox";
+import FilteredProducts from "./FilteredProducts";
+import { DataStates } from "components/App";
+import { Cart, Product } from "types";
 
 const DEFAULT_PRODUCTS_VISIBLE = 25;
 
-export default function Products({ dataState, products, cart, addToCart }) {
+export interface ProductsListProps {
+  dataState: keyof typeof DataStates;
+  products: Product[];
+  cart: Cart;
+  addToCart: (product: Product["id"]) => void;
+}
+
+export default function Products({
+  dataState,
+  products,
+  cart,
+  addToCart,
+}: ProductsListProps) {
   const [searchValue, setSearchValue] = useState("");
   const [productsToShowCount, setProductsToShowCount] = useState(
     DEFAULT_PRODUCTS_VISIBLE
   );
 
-  const onSearchChange = e => {
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
     setProductsToShowCount(DEFAULT_PRODUCTS_VISIBLE);
   };
@@ -20,9 +34,9 @@ export default function Products({ dataState, products, cart, addToCart }) {
   const loadMoreProducts = () => {
     setProductsToShowCount(productsToShowCount + DEFAULT_PRODUCTS_VISIBLE);
   };
-  
+
   const hasMoreProducts = products.length > productsToShowCount;
-  
+
   return (
     <>
       <Row>
@@ -55,10 +69,3 @@ export default function Products({ dataState, products, cart, addToCart }) {
     </>
   );
 }
-
-Products.defaultProps = {
-  dataState: "loading",
-  products: [],
-  cart: [],
-  addToCart: () => {}
-};

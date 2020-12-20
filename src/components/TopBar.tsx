@@ -9,9 +9,15 @@ const BADGE_STYLE = { width: "1.5rem", height: "1.5rem" };
 const BADGE_CLASSES = `d-inline-flex justify-content-center align-items-center
 rounded-circle p-0 ml-2`;
 
-export default function TopBar({ cart, toggleCartModal }) {
-  const itemsInCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+export interface TopBarProps {
+  itemsInCartCount: number;
+  toggleCartModal: () => void;
+}
 
+export default function TopBar({
+  itemsInCartCount,
+  toggleCartModal,
+}: TopBarProps) {
   return (
     <Navbar bg="light" fixed="top">
       <Container>
@@ -55,5 +61,5 @@ export default function TopBar({ cart, toggleCartModal }) {
 
 TopBar.defaultProps = {
   cart: [],
-  toggleCartModal: () => {}
+  toggleCartModal: () => {},
 };

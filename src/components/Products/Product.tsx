@@ -1,12 +1,14 @@
 import { Card, Button, Badge, Col } from "react-bootstrap";
+import { ProductInCart } from "types";
+import { ProductsListProps } from "./Products";
 
 const COL_STYLE = {
-  flexBasis: "50%"
+  flexBasis: "50%",
 };
 
 const CARD_STYLE = {
   minHeight: "12.5rem",
-  minWidth: "12.5rem"
+  minWidth: "12.5rem",
 };
 
 const ADD_TO_CART_TEXT = "Add to cart";
@@ -15,13 +17,17 @@ const IN_CART_TEXT = "in cart";
 
 const CURRENCY_CODE = ""; // not specified in the data
 
+export interface ProductProps extends ProductInCart {
+  addToCart: ProductsListProps["addToCart"];
+}
+
 export default function Product({
   id,
   name,
   price,
-  quantityInCart,
-  addToCart
-}) {
+  quantity,
+  addToCart,
+}: ProductProps) {
   return (
     <Col style={COL_STYLE} className="col-md-6 col-lg-4 flex-grow-0">
       <Card style={CARD_STYLE} className="my-3">
@@ -39,14 +45,18 @@ export default function Product({
           >
             {ADD_TO_CART_TEXT}
           </Button>
-          <BadgeInCart quantityInCart={quantityInCart} />
+          <BadgeInCart quantityInCart={quantity} />
         </Card.Footer>
       </Card>
     </Col>
   );
 }
 
-function BadgeInCart({ quantityInCart }) {
+export interface BadgeInCartProps {
+  quantityInCart: ProductInCart["quantity"];
+}
+
+function BadgeInCart({ quantityInCart }: BadgeInCartProps) {
   if (quantityInCart > 0) {
     return (
       <Badge variant="success" className="d-flex align-items-center">
@@ -56,11 +66,3 @@ function BadgeInCart({ quantityInCart }) {
   }
   return null;
 }
-
-Product.defaultProps = {
-  id: 0,
-  name: "",
-  price: 0,
-  quantityInCart: 0,
-  addToCart: () => {}
-};

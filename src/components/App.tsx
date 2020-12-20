@@ -5,48 +5,65 @@ import {
   addProductToCart,
   removeProductFromCart,
 } from "../actions/cartActions";
-import TopBar from "./TopBar.jsx";
-import Products from "./Products/Products.jsx";
-import Cart from "./Cart/Cart.jsx";
+import TopBar from "./TopBar";
+import Products from "./Products/Products";
+import Cart from "./Cart/Cart";
+import { Product } from "types";
 
 const API_URL = "/react-shopping-cart/data.json";
 
-const DATA_STATES = { loading: "loading", loaded: "loaded" };
+export enum DataStates {
+  loading = "loading",
+  loaded = "loaded",
+  error = "error",
+}
 
 export default function App() {
-  const [dataState, setDataState] = useState(DATA_STATES.loading);
+  const [dataState, setDataState] = useState(DataStates.loading);
   const [showCartModal, setCartModalVisibility] = useState(false);
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [cart, dispatch] = useReducer(cartReducer, []);
 
   useEffect(() => {
-    const fetchProducts = async (url) => {
+    const fetchProducts = async (url: string) => {
       const response = await fetch(url);
       const products = await response.json();
-      return products;
+
+      try {
+        setProducts(products);
+        setDataState(DataStates.loaded);
+      } catch {
+        setDataState(DataStates.error);
+      }
     };
-    fetchProducts(API_URL).then((products) => {
-      setProducts(products);
-      setDataState(DATA_STATES.loaded);
-    });
+
+    fetchProducts(API_URL);
   }, []);
 
   const toggleCartModal = () => {
-    setCartModalVisibility(!showCartModal);
+    setCartModalVisibility((isVisible) => !isVisible);
   };
 
-  const addToCart = (id) => {
+  const addToCart = (id: Product["id"]) => {
     const product = products.find((product) => product.id === id);
-    dispatch(addProductToCart(product, cart));
+    if (!product) return;
+    dispatch(addProductToCart(product));
   };
 
-  const removeFromCart = (id) => {
-    dispatch(removeProductFromCart(id, cart));
+  const removeFromCart = (id: Product["id"]) => {
+    const product = products.find((product) => product.id === id);
+    if (!product) return;
+    dispatch(removeProductFromCart(product));
   };
+
+  const itemsInCartCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
     <>
-      <TopBar cart={cart} toggleCartModal={toggleCartModal} />
+      <TopBar
+        itemsInCartCount={itemsInCartCount}
+        toggleCartModal={toggleCartModal}
+      />
       <Cart
         showCartModal={showCartModal}
         toggleCartModal={toggleCartModal}
